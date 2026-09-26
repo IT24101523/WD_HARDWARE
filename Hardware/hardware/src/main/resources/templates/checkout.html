@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W J Digital Hardware - Checkout & Billing Details</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-navy: #0B4783;
+            --primary-navy-dark: #072f57;
+            --accent-gold: #f39c12;
+            --accent-gold-hover: #e67e22;
+            --footer-blue: #0B4783;
+            --footer-blue-dark: #072e56;
+            --bg-body: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-nav {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+
+        .brand-logo-img {
+            height: 44px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .billing-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 32px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+        }
+
+        .section-title {
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 24px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            font-size: 1.25rem;
+        }
+
+        .form-label-custom {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .form-label-custom .req {
+            color: #e74c3c;
+        }
+
+        .form-control-billing, .form-select-billing {
+            background-color: #f8f9fa;
+            border: 1px solid #cbd5e1;
+            color: var(--text-main);
+            font-weight: 600;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+        }
+
+        .form-control-billing:focus, .form-select-billing:focus {
+            background-color: #ffffff;
+            border-color: var(--primary-navy);
+            box-shadow: 0 0 0 0.25rem rgba(11, 71, 131, 0.15);
+            color: var(--text-main);
+        }
+
+        /* RIGHT SIDE ORDER SUMMARY CARD */
+        .order-summary-card {
+            background: #ffffff;
+            color: var(--text-main);
+            border-radius: 18px;
+            padding: 32px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        }
+
+        .order-summary-header {
+            text-align: center;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: 1px;
+            font-size: 1.2rem;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .order-table th {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .order-table td {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        .shipping-box {
+            background: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .payment-box {
+            background: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .btn-place-order {
+            background: var(--accent-gold);
+            color: #000000;
+            font-weight: 800;
+            padding: 16px;
+            border-radius: 30px;
+            border: none;
+            width: 100%;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 18px rgba(243, 156, 18, 0.35);
+        }
+
+        .btn-place-order:hover {
+            background: var(--accent-gold-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(243, 156, 18, 0.5);
+            color: #ffffff;
+        }
+
+        .pin-display {
+            background: #f8f9fa;
+            border: 2px dashed var(--accent-gold);
+            border-radius: 14px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .receipt-card {
+            background: #ffffff;
+            color: #1a202c;
+            border-radius: 18px;
+            padding: 30px;
+        }
+
+        /* BLUE FOOTER */
+        .site-footer {
+            background: linear-gradient(180deg, var(--footer-blue) 0%, var(--footer-blue-dark) 100%);
+            color: #ffffff;
+            padding: 50px 0 25px 0;
+            margin-top: auto;
+        }
+
+        .footer-logo-box {
+            background: #ffffff;
+            padding: 10px 16px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        .footer-logo-box img {
+            height: 48px;
+            object-fit: contain;
+        }
+
+        .footer-desc {
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .footer-heading {
+            font-weight: 800;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            color: #f39c12;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 9px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 0.86rem;
+            transition: color 0.2s ease, padding-left 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #f39c12;
+            padding-left: 4px;
+        }
+
+        .hotline-item {
+            font-size: 0.88rem;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .footer-bottom-bar {
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            padding-top: 20px;
+            margin-top: 35px;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* FLOATING QUICK CONTACT BUTTON (PHONE) */
+        .floating-contact-widget {
+            position: fixed;
+            bottom: 25px;
+            right: 20px;
+            z-index: 1050;
+        }
+
+        .float-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .float-btn:hover {
+            transform: scale(1.12);
+            color: #ffffff;
+        }
+
+        .float-phone {
+            background-color: var(--primary-navy);
+            border: 2px solid var(--accent-gold);
+        }
+    </style>
+</head>
+<body>
+
+<!-- GALLE DISTRICT DELIVERY NOTICE BANNER -->
+<div class="delivery-notice-bar text-center py-2 text-white fw-semibold" style="background: linear-gradient(90deg, #0B4783 0%, #1e6091 100%); font-size: 0.9rem;">
+    <i class="bi bi-geo-alt-fill text-warning me-2"></i>
+    <strong>Galle District Scoping Notice:</strong> Truck dispatch deliveries operate exclusively within Galle District (Origin: Balapitiya Main Yard). Store pickup is available for all customers!
+</div>
+
+<header class="header-nav mb-4">
+    <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+        <a href="/index" class="text-decoration-none fw-bold fs-4 d-flex align-items-center gap-2 text-dark">
+            <img src="/images/wj-logo.png" alt="WJ Logo" class="brand-logo-img">
+            <span>W J <span style="color: var(--primary-navy);">Digital Hardware</span></span>
+        </a>
+        <a href="/index" class="btn btn-outline-secondary rounded-pill btn-sm px-3 fw-bold">
+            <i class="bi bi-arrow-left me-1"></i> Back to Store
+        </a>
+    </div>
+</header>
+
+<main class="container-fluid px-4 mb-5 flex-grow-1">
+    <div th:if="${orderError}" class="alert alert-danger alert-dismissible fade show mb-4">
+        <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+        <strong th:text="${orderError}">Error message here</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <form th:action="@{/checkout/place-order}" th:object="${orderRequestDto}" method="post" id="checkoutForm">
+
+        <input type="hidden" id="fulfillmentTypeInput" th:field="*{fulfillmentType}">
+        <input type="hidden" id="distanceKmInput" th:field="*{distanceKm}">
+
+        <div class="row g-4">
+
+            <!-- LEFT COLUMN: BILLING DETAILS -->
+            <div class="col-lg-7">
+                <div class="billing-card">
+                    <h3 class="section-title"><i class="bi bi-person-lines-fill me-2" style="color: var(--primary-navy);"></i> Billing Details</h3>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label-custom">First name <span class="req">*</span></label>
+                            <input type="text" class="form-control form-control-billing" th:field="*{firstName}" placeholder="e.g. Motif" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label-custom">Last name <span class="req">*</span></label>
+                            <input type="text" class="form-control form-control-billing" th:field="*{lastName}" placeholder="e.g. Nuwanjith" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label-custom">Company name (optional)</label>
+                            <input type="text" class="form-control form-control-billing" th:field="*{companyName}" placeholder="e.g. Motif Hardware Supplies">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label-custom">Country / Region <span class="req">*</span></label>
+                            <input type="text" class="form-control form-control-billing" value="Sri Lanka (Galle District Coverage)" readonly>
+                        </div>
+
+                        <!-- CITY SELECTION DROPDOWN WITH BALAPITIYA BASELINE DISTANCES -->
+                        <div class="col-12">
+                            <label class="form-label-custom">City / Delivery Town (Galle District Only) <span class="req">*</span></label>
+                            <select class="form-select form-select-billing" th:field="*{city}" id="citySelect" onchange="onCitySelected()" required>
+                                <option value="">-- Select Destination Town in Galle District --</option>
+                                <optgroup label="Galle District Towns (Origin: Balapitiya Yard)">
+                                    <option value="Balapitiya" data-km="1.0" selected>Balapitiya (Local Main Yard - 1 km)</option>
+                                    <option value="Ahungalla" data-km="4.0">Ahungalla (4 km)</option>
+                                    <option value="Kosgoda" data-km="8.0">Kosgoda (8 km)</option>
+                                    <option value="Ambalangoda" data-km="10.0">Ambalangoda (10 km)</option>
+                                    <option value="Batapola" data-km="12.0">Batapola (12 km)</option>
+                                    <option value="Bentota" data-km="18.0">Bentota (18 km)</option>
+                                    <option value="Elpitiya" data-km="18.0">Elpitiya (18 km)</option>
+                                    <option value="Hikkaduwa" data-km="25.0">Hikkaduwa (25 km)</option>
+                                    <option value="Baddegama" data-km="35.0">Baddegama (35 km)</option>
+                                    <option value="Galle" data-km="43.0">Galle (City Center - 43 km)</option>
+                                    <option value="Karapitiya" data-km="45.0">Karapitiya (45 km)</option>
+                                    <option value="Unawatuna" data-km="48.0">Unawatuna (48 km)</option>
+                                    <option value="Habaraduwa" data-km="56.0">Habaraduwa (56 km)</option>
+                                    <option value="Koggala" data-km="58.0">Koggala (58 km)</option>
+                                    <option value="Imaduwa" data-km="60.0">Imaduwa (60 km)</option>
+                                    <option value="Ahangama" data-km="63.0">Ahangama (63 km)</option>
+                                    <option value="Hiniduma" data-km="70.0">Hiniduma (70 km)</option>
+                                    <option value="Neluwa" data-km="80.0">Neluwa (80 km)</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label-custom">Street address <span class="req">*</span></label>
+                            <input type="text" class="form-control form-control-billing mb-2" th:field="*{streetAddress}" placeholder="House number and street name (e.g. 110/A, New Kandy Road Weliweriya)" minlength="5" maxlength="255" title="Street address must be between 5 and 255 characters" required>
+                            <input type="text" class="form-control form-control-billing" th:field="*{apartment}" placeholder="Apartment, suite, unit, etc. (optional)">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label-custom">Postcode / ZIP (optional)</label>
+                            <input type="text" class="form-control form-control-billing" th:field="*{postcode}" placeholder="e.g. 11710">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label-custom">Phone <span class="req">*</span></label>
+                            <input type="text" class="form-control form-control-billing" th:field="*{phone}" placeholder="0703887087" pattern="^(?:\+94|0)?[0-9\s\-]{9,12}$" title="Please enter a valid phone number (e.g. 0771234567 or +94771234567)" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label-custom">Email address <span class="req">*</span></label>
+                            <input type="email" class="form-control form-control-billing" th:field="*{email}" placeholder="name@domain.com" required>
+                        </div>
+
+                        <div class="col-12 pt-2">
+                            <label class="form-label-custom">Order notes (optional)</label>
+                            <textarea class="form-control form-control-billing" th:field="*{orderNotes}" rows="3" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: YOUR ORDER SUMMARY -->
+            <div class="col-lg-5">
+                <div class="order-summary-card">
+                    <div class="order-summary-header text-dark">YOUR ORDER DETAILS</div>
+
+                    <!-- ITEMIZED ORDER PRODUCTS TABLE -->
+                    <table class="order-table mb-3">
+                        <thead>
+                            <tr>
+                                <th>PRODUCT & LOAD SPECS</th>
+                                <th class="text-end">SUBTOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${cartItems}">
+                                <td>
+                                    <div class="fw-bold text-dark" th:text="${item.product.name}">Angle Grinder 100MM</div>
+                                    <div class="small text-secondary">
+                                        <span th:text="${'Qty: ' + item.quantity + ' ' + item.product.unit}">Qty: 2 pcs</span> | 
+                                        <span th:text="${'Rate: LKR ' + #numbers.formatDecimal(item.product.discountedPrice, 1, 'COMMA', 2, 'POINT')}">Price</span>
+                                    </div>
+                                    <small class="badge bg-light text-dark border me-1" th:text="${'Weight: ' + (item.product.unitWeightKg * item.quantity) + ' kg'}">Weight</small>
+                                    <small class="badge bg-light text-dark border" th:text="${'Volume: ' + (item.product.unitVolumeKubs * item.quantity) + ' kubs'}">Volume</small>
+                                </td>
+                                <td class="text-end fw-bold text-dark align-top pt-2" th:text="${'Rs. ' + #numbers.formatDecimal(item.subtotal, 1, 'COMMA', 2, 'POINT')}">Rs. 19,802.00</td>
+                            </tr>
+                            <tr class="bg-light">
+                                <td class="fw-bold text-dark ps-2">Hardware Subtotal</td>
+                                <td class="text-end fw-bold text-dark pe-2" id="sumHardwareSub" th:text="${'Rs. ' + #numbers.formatDecimal(hardwareSubtotal, 1, 'COMMA', 2, 'POINT')}">Rs. 19,802.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- LOAD ENGINE & FLEET DISPATCH SPECS -->
+                    <div class="p-3 rounded mb-3 border bg-light">
+                        <h6 class="fw-bold text-dark mb-2 border-bottom pb-1"><i class="bi bi-cpu-fill text-primary me-1" style="color: var(--primary-navy) !important;"></i> Order Payload & Vehicle Match Specs</h6>
+                        <div class="row g-2 text-center small mb-2">
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-white border">
+                                    <span class="text-muted d-block small">Cumulative Weight</span>
+                                    <strong id="dispWeight" class="text-dark fs-6" th:text="${initialCalc.totalWeightKg + ' kg'}">0 kg</strong>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-white border">
+                                    <span class="text-muted d-block small">Cumulative Volume</span>
+                                    <strong id="dispVolume" class="text-dark fs-6" th:text="${initialCalc.totalVolumeKubs + ' kubs'}">0 kubs</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small text-secondary">
+                            <div><strong>Dispatch Vehicle:</strong> <span id="dispVehicleModel" class="fw-bold" style="color: var(--primary-navy);" th:text="${initialCalc.matchedVehicleModel}">Tipper Truck</span></div>
+                            <div id="dispVehicleSpecs" th:text="${'Vehicle Max Limit: ' + initialCalc.vehicleMaxWeightKg + ' kg | ' + initialCalc.vehicleMaxVolumeKubs + ' kubs'}">Specs</div>
+                        </div>
+                    </div>
+
+                    <!-- SHIPPING SELECTION BOX -->
+                    <div class="shipping-box">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="fw-bold text-dark">Shipping Logistics</span>
+                            <div class="text-end">
+                                <div class="form-check mb-1">
+                                    <input class="form-check-input" type="radio" name="shippingChoice" id="shipDelivery" checked onclick="selectFulfillment('DELIVERY')">
+                                    <label class="form-check-label fw-bold text-dark" for="shipDelivery">
+                                        Home Delivery: <span class="fw-bold" style="color: var(--primary-navy);" id="dispDeliveryFeeText">Rs. 1,100.00</span>
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="shippingChoice" id="shipPickup" onclick="selectFulfillment('PICKUP')">
+                                    <label class="form-check-label text-secondary" for="shipPickup">
+                                        In-Store pickup (Rs. 0.00)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <small class="text-muted d-block mt-2 border-top pt-2" id="dispVehicleMatchText">
+                            Origin: 30 Galle Rd, Balapitiya | Vehicle: Tipper Truck
+                        </small>
+                    </div>
+
+                    <!-- TOTAL -->
+                    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                        <span class="fw-bold fs-5 text-dark">Total Payable</span>
+                        <span class="fw-bold fs-4" style="color: var(--primary-navy);" id="sumGrandTotal" th:text="${'Rs. ' + #numbers.formatDecimal(initialCalc.grandTotal, 1, 'COMMA', 2, 'POINT')}">Rs. 20,902.00</span>
+                    </div>
+
+                    <!-- PAYMENT METHODS -->
+                    <div class="payment-box">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" th:field="*{paymentMethod}" id="payBank" value="BANK" checked onclick="togglePaymentNotice('BANK')">
+                            <label class="form-check-label fw-bold text-dark" for="payBank">
+                                Bank Transfer / QR Code
+                            </label>
+                        </div>
+                        <div id="noticeBank" class="small text-muted p-2 rounded bg-white border mb-3">
+                            Please make an online transfer or use your LankaPay QR app for the amount, quoting your order number as the reference. We will dispatch the goods once the payment is cleared.
+                        </div>
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" th:field="*{paymentMethod}" id="payCard" value="CARD" onclick="togglePaymentNotice('CARD')">
+                            <label class="form-check-label fw-bold text-dark d-flex align-items-center justify-content-between" for="payCard">
+                                <span>Pay with Visa / MasterCard / AMEX and Others</span>
+                                <span class="badge bg-primary ms-1">WEBXPAY</span>
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" th:field="*{paymentMethod}" id="payCod" value="COD" onclick="togglePaymentNotice('COD')">
+                            <label class="form-check-label fw-bold text-dark" for="payCod">
+                                Cash on Delivery / Handover
+                            </label>
+                        </div>
+                    </div>
+
+                    <p class="small text-muted mb-3">
+                        Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our Privacy Policy.
+                    </p>
+
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                        <label class="form-check-label small text-dark fw-bold" for="termsCheck">
+                            I have read and agree to the website Terms And Conditions <span class="text-danger">*</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" id="placeOrderBtn" class="btn btn-place-order">
+                        PLACE ORDER <i class="bi bi-arrow-right-circle-fill ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</main>
+
+<!-- INVOICE RECEIPT & 4-DIGIT PIN MODAL -->
+<div th:if="${placedOrder}" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.6);" id="receiptModal">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content receipt-card shadow-lg border-0">
+            <div class="d-flex justify-content-between align-items-center pb-3 border-bottom mb-3">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/images/wj-logo.png" alt="WJ Logo" style="height: 38px;">
+                    <div>
+                        <h4 class="fw-bold m-0 text-dark">W J Digital Hardware</h4>
+                        <small class="text-muted" th:text="${'Invoice Order: #' + placedOrder.orderNumber}">HW-2026-0001</small>
+                    </div>
+                </div>
+                <span class="badge bg-success px-3 py-2 fs-6">ORDER CONFIRMED</span>
+            </div>
+
+            <!-- 4-DIGIT ORDER VERIFICATION PIN -->
+            <div class="pin-display mb-4" th:if="${placedOrder.pickupPin != null}">
+                <small class="text-muted fw-bold text-uppercase d-block">Your Order Verification PIN</small>
+                <div class="display-4 fw-bold text-warning letter-spacing-2" th:text="${placedOrder.pickupPin}">8392</div>
+                <small class="text-muted">Please keep this PIN safe and tell it to the delivery driver upon receiving and inspecting your items.</small>
+            </div>
+
+            <div class="row mb-3 small">
+                <div class="col-6">
+                    <h6 class="fw-bold text-uppercase text-muted">Customer & Delivery Info</h6>
+                    <p class="mb-0 fw-bold" th:text="${placedOrder.user.fullName}">Name</p>
+                    <p class="mb-0 text-muted" th:text="${placedOrder.phone}">Phone</p>
+                    <p class="mb-0 text-muted" th:text="${placedOrder.shippingAddress}">Address</p>
+                </div>
+                <div class="col-6 text-end">
+                    <h6 class="fw-bold text-uppercase text-muted">Logistics Summary</h6>
+                    <p class="mb-0"><span class="text-muted">Fulfillment:</span> <span class="fw-bold text-primary" style="color: var(--primary-navy) !important;" th:text="${placedOrder.fulfillmentType}">DELIVERY</span></p>
+                    <p class="mb-0"><span class="text-muted">Total Load:</span> <span th:text="${placedOrder.totalWeightKg + ' kg | ' + placedOrder.totalVolumeKubs + ' kubs'}">Load</span></p>
+                    <p class="mb-0"><span class="text-muted">Distance from Balapitiya:</span> <span th:text="${placedOrder.distanceKm + ' km'}">12 km</span></p>
+                </div>
+            </div>
+
+            <table class="table table-bordered align-middle mb-3 small">
+                <thead class="table-light">
+                    <tr>
+                        <th>Item</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-end">Unit Price</th>
+                        <th class="text-end">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${placedOrder.orderItems}">
+                        <td th:text="${item.productName}">Item</td>
+                        <td class="text-center" th:text="${item.quantity + ' ' + item.unit}">Qty</td>
+                        <td class="text-end" th:text="${'Rs. ' + #numbers.formatDecimal(item.unitPrice, 1, 'COMMA', 2, 'POINT')}">Price</td>
+                        <td class="text-end fw-bold" th:text="${'Rs. ' + #numbers.formatDecimal(item.subtotal, 1, 'COMMA', 2, 'POINT')}">Subtotal</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="3" class="text-end">Hardware Subtotal:</th>
+                        <th class="text-end" th:text="${'Rs. ' + #numbers.formatDecimal(placedOrder.hardwareSubtotal, 1, 'COMMA', 2, 'POINT')}">Rs. 0.00</th>
+                    </tr>
+                    <tr>
+                        <th colspan="3" class="text-end">Delivery Charge:</th>
+                        <th class="text-end" th:text="${'Rs. ' + #numbers.formatDecimal(placedOrder.deliveryCharge, 1, 'COMMA', 2, 'POINT')}">Rs. 0.00</th>
+                    </tr>
+                    <tr class="table-light fs-6">
+                        <th colspan="3" class="text-end">Grand Total Paid:</th>
+                        <th class="text-end text-success fw-bold" th:text="${'Rs. ' + #numbers.formatDecimal(placedOrder.totalAmount, 1, 'COMMA', 2, 'POINT')}">Rs. 0.00</th>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                <button onclick="window.print()" class="btn btn-outline-dark fw-bold rounded-pill px-4"><i class="bi bi-printer me-2"></i> Print Invoice</button>
+                <a href="/index" class="btn btn-warning fw-bold rounded-pill px-4" style="background: var(--accent-gold); border: none;">Back to Store <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- HARDWAREMART-STYLE RICH FOOTER -->
+<footer class="site-footer">
+    <div class="container-fluid px-4">
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-logo-box">
+                    <img src="/images/wj-logo.png" alt="WJ Hardware Logo">
+                </div>
+                <p class="footer-desc">
+                    WJ Digital Hardware was quick to respond in filling the void in the market by becoming an intermediary between the suppliers and the end consumer with automated weight-engine fleet logistics.
+                </p>
+                <div class="d-flex gap-3 mt-3">
+                    <a href="#" class="text-white fs-5"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-white fs-5"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-white fs-5"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+
+            <!-- FEATURED CATEGORIES -->
+            <div class="col-lg-3 col-md-6 col-6">
+                <h6 class="footer-heading">FEATURED CATEGORIES</h6>
+                <ul class="footer-links">
+                    <li><a href="/index?categoryId=1#catalogGrid"><i class="bi bi-tools text-warning me-2"></i>Hand Tools</a></li>
+                    <li><a href="/index?categoryId=2#catalogGrid"><i class="bi bi-lightning-charge-fill text-warning me-2"></i>Power Tools</a></li>
+                    <li><a href="/index?categoryId=3#catalogGrid"><i class="bi bi-cpu-fill text-warning me-2"></i>Electronics</a></li>
+                    <li><a href="/index?categoryId=4#catalogGrid"><i class="bi bi-droplet-fill text-warning me-2"></i>Plumbing</a></li>
+                    <li><a href="/index?categoryId=5#catalogGrid"><i class="bi bi-building-fill text-warning me-2"></i>Construction</a></li>
+                    <li><a href="/index?categoryId=6#catalogGrid"><i class="bi bi-plug-fill text-warning me-2"></i>Electrical</a></li>
+                    <li><a href="/index?categoryId=7#catalogGrid"><i class="bi bi-shield-lock-fill text-warning me-2"></i>Safety Gear</a></li>
+                    <li><a href="/index?categoryId=8#catalogGrid"><i class="bi bi-paint-bucket text-warning me-2"></i>Paints</a></li>
+                </ul>
+            </div>
+
+            <!-- USEFUL LINKS -->
+            <div class="col-lg-2 col-md-6 col-6">
+                <h6 class="footer-heading">USEFUL LINKS</h6>
+                <ul class="footer-links">
+                    <li><a href="#">Returns And Refund Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Payment Options</a></li>
+                    <li><a href="#">Delivery Options</a></li>
+                    <li><a href="#">Online Security</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+
+            <!-- QUICK LINKS -->
+            <div class="col-lg-2 col-md-6 col-6">
+                <h6 class="footer-heading">QUICK LINKS</h6>
+                <ul class="footer-links">
+                    <li><a href="#">Ethics And Compliance</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Newsroom</a></li>
+                    <li><a href="#">Hot Deals</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="/index">Home</a></li>
+                </ul>
+            </div>
+
+            <!-- HOTLINE & CONTACT -->
+            <div class="col-lg-2 col-md-6 col-12">
+                <h6 class="footer-heading">HOTLINE</h6>
+                <div class="mb-3">
+                    <a href="tel:0412250571" class="text-white text-decoration-none fs-5 fw-bold d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-telephone-fill text-warning"></i> 041 225 0571
+                    </a>
+                </div>
+                <div class="hotline-item text-white-50 small mb-2">
+                    <i class="bi bi-clock-fill text-warning me-1"></i> Mon - Sat: 7:30 AM - 7:00 PM
+                </div>
+                <div class="hotline-item text-white-50 small mb-2">
+                    <i class="bi bi-envelope-fill text-warning me-1"></i> info@wjhardware.lk
+                </div>
+                <div class="hotline-item text-white-50 small">
+                    <i class="bi bi-geo-alt-fill text-warning me-1"></i> Main Yard & Store, Sri Lanka
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom-bar d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>© 2026 W J Digital Hardware Ltd. All Rights Reserved.</div>
+            <div class="text-white-50 fw-semibold">Powered by ISE_WE_0101_21 Team</div>
+        </div>
+    </div>
+</footer>
+
+<!-- FLOATING QUICK CONTACT WIDGET -->
+<div class="floating-contact-widget">
+    <a href="tel:0412250571" class="float-btn float-phone" title="Call Hotline: 041 225 0571">
+        <i class="bi bi-telephone-fill"></i>
+    </a>
+</div>
+
+<!-- JS Script Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        onCitySelected();
+
+        const checkoutForm = document.getElementById('checkoutForm');
+        if (checkoutForm) {
+            checkoutForm.addEventListener('submit', function(e) {
+                const btn = document.getElementById('placeOrderBtn');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> PLACING ORDER...';
+                }
+            });
+        }
+
+        // Clean up URL query parameters so page refresh does not resubmit or reload modal loop
+        if (window.location.search.includes('orderSuccess=') && window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.pathname);
+        }
+    });
+
+    function onCitySelected() {
+        const citySelect = document.getElementById('citySelect');
+        const selectedOpt = citySelect.options[citySelect.selectedIndex];
+        
+        let km = 10.0;
+        if (selectedOpt && selectedOpt.dataset.km) {
+            km = parseFloat(selectedOpt.dataset.km);
+        }
+
+        document.getElementById('distanceKmInput').value = km;
+        recalculateLoadEngine();
+    }
+
+    function selectFulfillment(type) {
+        document.getElementById('fulfillmentTypeInput').value = type;
+        if (type === 'PICKUP') {
+            document.getElementById('shipPickup').checked = true;
+        } else {
+            document.getElementById('shipDelivery').checked = true;
+        }
+        recalculateLoadEngine();
+    }
+
+    function togglePaymentNotice(method) {
+        const bankNotice = document.getElementById('noticeBank');
+        if (method === 'BANK') {
+            bankNotice.classList.remove('d-none');
+        } else {
+            bankNotice.classList.add('d-none');
+        }
+    }
+
+    function recalculateLoadEngine() {
+        const type = document.getElementById('fulfillmentTypeInput').value;
+        const distance = parseFloat(document.getElementById('distanceKmInput').value) || 10.0;
+
+        fetch('/api/delivery/calculate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fulfillmentType: type, distanceKm: distance })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data && data.hardwareSubtotal !== undefined) {
+                document.getElementById('dispDeliveryFeeText').textContent = 'Rs. ' + data.deliveryCharge.toLocaleString('en-US', { minimumFractionDigits: 2 });
+                document.getElementById('sumHardwareSub').textContent = 'Rs. ' + data.hardwareSubtotal.toLocaleString('en-US', { minimumFractionDigits: 2 });
+                document.getElementById('sumGrandTotal').textContent = 'Rs. ' + data.grandTotal.toLocaleString('en-US', { minimumFractionDigits: 2 });
+                document.getElementById('dispVehicleMatchText').textContent = `Origin: 30 Galle Rd, Balapitiya (${data.distanceKm} km) | Vehicle: ${data.matchedVehicleModel}`;
+            }
+        })
+        .catch(err => console.error(err));
+    }
+</script>
+</body>
+</html>

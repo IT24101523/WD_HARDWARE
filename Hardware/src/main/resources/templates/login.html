@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W J Digital Hardware - Login & Register</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-navy: #0B4783;
+            --primary-navy-dark: #072f57;
+            --accent-gold: #f39c12;
+            --accent-gold-hover: #e67e22;
+            --bg-body: #f1f5f9;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 24px 16px;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--card-bg);
+            border-radius: 22px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .auth-header {
+            background: #ffffff;
+            padding: 28px 20px 20px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .auth-logo {
+            height: 52px;
+            width: auto;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .auth-header h3 {
+            font-weight: 800;
+            margin: 0;
+            font-size: 1.4rem;
+            color: var(--text-main);
+        }
+
+        .auth-header h3 .brand-accent {
+            color: var(--primary-navy);
+        }
+
+        .auth-header p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            margin-top: 4px;
+            margin-bottom: 0;
+        }
+
+        .nav-tabs-custom {
+            display: flex;
+            background: #f8f9fa;
+            padding: 6px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-tabs-custom .nav-link {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-radius: 12px;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: none;
+            background: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-tabs-custom .nav-link.active {
+            background: var(--primary-navy);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(11, 71, 131, 0.25);
+        }
+
+        .form-control, .form-select {
+            background: #f8f9fa;
+            border: 1px solid #cbd5e1;
+            color: var(--text-main);
+            padding: 11px 16px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: #ffffff;
+            border-color: var(--primary-navy);
+            color: var(--text-main);
+            box-shadow: 0 0 0 0.25rem rgba(11, 71, 131, 0.15);
+        }
+
+        .btn-custom {
+            background: var(--accent-gold);
+            color: #000000;
+            font-weight: 800;
+            padding: 13px;
+            border-radius: 12px;
+            border: none;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .btn-custom:hover {
+            background: var(--accent-gold-hover);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(243, 156, 18, 0.35);
+        }
+
+        .form-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .alert-custom {
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .storefront-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary-navy);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.88rem;
+            margin-top: 14px;
+        }
+
+        .storefront-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="auth-header">
+        <a href="/index">
+            <img src="/images/wj-logo.png" alt="WJ Logo" class="auth-logo">
+        </a>
+        <h3>W J <span class="brand-accent">Digital Hardware</span></h3>
+        <p>Logistics & Construction Material Management Portal</p>
+    </div>
+
+    <!-- Mandatory Gatekeeper Banner -->
+    <div th:if="${param.gatekeeper}" class="alert alert-warning alert-custom m-3 mb-0 border-0" role="alert">
+        <i class="bi bi-shield-lock-fill me-2 fs-5 align-middle"></i>
+        <strong>Authentication Required:</strong> Please log in or register to complete fulfillment selection and checkout.
+    </div>
+
+    <!-- Toggle Navigation Tabs -->
+    <ul class="nav nav-tabs nav-tabs-custom" id="authTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" th:classappend="${(param.tab != null and param.tab[0] == 'register') or activeTab == 'register'} ? '' : 'active'" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-tab-pane" type="button" role="tab">
+                <i class="bi bi-box-arrow-in-right me-1"></i> Login
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" th:classappend="${(param.tab != null and param.tab[0] == 'register') or activeTab == 'register'} ? 'active' : ''" id="register-tab" data-bs-toggle="tab" data-bs-target="#register-tab-pane" type="button" role="tab">
+                <i class="bi bi-person-plus me-1"></i> Register
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content p-4" id="authTabsContent">
+        <!-- LOGIN TAB -->
+        <div class="tab-pane fade" th:classappend="${(param.tab != null and param.tab[0] == 'register') or activeTab == 'register'} ? '' : 'show active'" id="login-tab-pane" role="tabpanel">
+
+            <div th:if="${loginError}" class="alert alert-danger alert-custom alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i> <span th:text="${loginError}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <div th:if="${logoutSuccess}" class="alert alert-info alert-custom alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i> <span th:text="${logoutSuccess}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <div th:if="${registrationSuccess}" class="alert alert-success alert-custom alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i> <span th:text="${registrationSuccess}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <form th:action="@{/login}" method="post">
+                <div class="mb-3">
+                    <label for="loginUsername" class="form-label">Username or Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted border"><i class="bi bi-person"></i></span>
+                        <input type="text" class="form-control" id="loginUsername" name="username" placeholder="e.g. admin or customer" required autofocus>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="loginPassword" class="form-label">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted border"><i class="bi bi-lock"></i></span>
+                        <input type="password" class="form-control" id="loginPassword" name="password" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-custom">
+                    LOG IN TO SYSTEM <i class="bi bi-arrow-right-short ms-1 fs-5 align-middle"></i>
+                </button>
+            </form>
+
+            <div class="mt-4 pt-3 border-top text-center text-muted fs-7">
+                <small class="fw-bold">Default Credentials:</small><br>
+                <small class="fw-bold text-dark">Admin:</small> <code>admin</code> / <code>admin123</code> |
+                <small class="fw-bold text-dark">Customer:</small> <code>customer</code> / <code>customer123</code>
+            </div>
+
+            <div class="text-center mt-2">
+                <a href="/index" class="storefront-link"><i class="bi bi-arrow-left"></i> Return to Storefront</a>
+            </div>
+        </div>
+
+        <!-- REGISTER TAB -->
+        <div class="tab-pane fade" th:classappend="${(param.tab != null and param.tab[0] == 'register') or activeTab == 'register'} ? 'show active' : ''" id="register-tab-pane" role="tabpanel">
+
+            <div th:if="${registrationError}" class="alert alert-danger alert-custom alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i> <span th:text="${registrationError}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <form th:action="@{/register}" th:object="${registrationDto}" method="post">
+                <div class="mb-3">
+                    <label for="regUsername" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="regUsername" th:field="*{username}" placeholder="Choose a username" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="regEmail" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="regEmail" th:field="*{email}" placeholder="name@domain.com" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="regFullName" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="regFullName" th:field="*{fullName}" placeholder="e.g. John Perera" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="regPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="regPassword" th:field="*{password}" placeholder="At least 6 characters" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="regPhone" class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" id="regPhone" th:field="*{phone}" placeholder="+94 77 123 4567" pattern="^(?:\+94|0)?[0-9\s\-]{9,12}$" title="Please enter a valid phone number (e.g. 0771234567 or +94771234567)" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="regAddress" class="form-label">Delivery Address</label>
+                    <textarea class="form-control" id="regAddress" th:field="*{address}" rows="2" placeholder="Street, City" minlength="5" maxlength="255" required></textarea>
+                </div>
+
+                <input type="hidden" name="role" value="ROLE_CUSTOMER">
+
+                <button type="submit" class="btn btn-custom">
+                    CREATE ACCOUNT & CONTINUE <i class="bi bi-check-lg ms-1"></i>
+                </button>
+            </form>
+
+            <div class="text-center mt-3">
+                <a href="/index" class="storefront-link"><i class="bi bi-arrow-left"></i> Return to Storefront</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

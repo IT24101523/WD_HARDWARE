@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 720" width="100%" height="100%" style="background-color: #0f172a; font-family: system-ui, -apple-system, sans-serif;">
+  
+  <!-- Definitions for Markers/Arrows -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4ade80"/>
+    </marker>
+  </defs>
+
+  <!-- Main Title Banner -->
+  <rect x="20" y="20" width="960" height="50" rx="10" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <text x="500" y="52" fill="#f8fafc" font-size="20" font-weight="bold" text-anchor="middle">
+    HARDWARE E-COMMERCE &amp; SMART FLEET DISPATCH SYSTEM
+  </text>
+
+  <!-- STAKEHOLDER ROLES SECTION -->
+  <text x="30" y="100" fill="#94a3b8" font-size="12" font-weight="bold" letter-spacing="1">1. STAKEHOLDER ROLES &amp; PERMISSIONS</text>
+  
+  <!-- Customer Role -->
+  <rect x="20" y="115" width="225" height="130" rx="8" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="35" y="140" fill="#60a5fa" font-size="14" font-weight="bold">👤 Customer</text>
+  <text x="35" y="165" fill="#93c5fd" font-size="11">• Browse Catalog &amp; Dynamic Units</text>
+  <text x="35" y="185" fill="#93c5fd" font-size="11">• Slide-out Cart (kubs, kg, pcs)</text>
+  <text x="35" y="205" fill="#93c5fd" font-size="11">• Auto Vehicle Fee Calculation</text>
+  <text x="35" y="225" fill="#93c5fd" font-size="11">• Order Checkout &amp; Tracking</text>
+
+  <!-- Inventory Manager Role -->
+  <rect x="265" y="115" width="225" height="130" rx="8" fill="#78350f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="280" y="140" fill="#fbbf24" font-size="14" font-weight="bold">📦 Inventory Manager</text>
+  <text x="280" y="165" fill="#fde68a" font-size="11">• Add / Edit Products &amp; Prices</text>
+  <text x="280" y="185" fill="#fde68a" font-size="11">• Configure Units (kubs/kg/pcs)</text>
+  <text x="280" y="205" fill="#fde68a" font-size="11">• Low Stock Warnings &amp; Restock</text>
+  <text x="280" y="225" fill="#fde68a" font-size="11">• Assign Vehicle Tier Rule</text>
+
+  <!-- Fleet Manager Role -->
+  <rect x="510" y="115" width="225" height="130" rx="8" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="525" y="140" fill="#a5b4fc" font-size="14" font-weight="bold">🚚 Fleet Manager</text>
+  <text x="525" y="165" fill="#c7d2fe" font-size="11">• Manage Fleet Roster &amp; Rates</text>
+  <text x="525" y="185" fill="#c7d2fe" font-size="11">• Live Vehicle Status Control</text>
+  <text x="525" y="205" fill="#c7d2fe" font-size="11">• Order Dispatch Operations</text>
+  <text x="525" y="225" fill="#c7d2fe" font-size="11">• Confirm Delivery &amp; Auto-Release</text>
+
+  <!-- Super Admin Role -->
+  <rect x="755" y="115" width="225" height="130" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="770" y="140" fill="#34d399" font-size="14" font-weight="bold">👑 Super Admin</text>
+  <text x="770" y="165" fill="#a7f3d0" font-size="11">• ACCESS ALL MODULES</text>
+  <text x="770" y="185" fill="#a7f3d0" font-size="11">• Revenue Breakdown Analytics</text>
+  <text x="770" y="205" fill="#a7f3d0" font-size="11">• Goods Sales vs Logistics Fees</text>
+  <text x="770" y="225" fill="#a7f3d0" font-size="11">• User Account Controls</text>
+
+  <!-- SYSTEM PROCESSES & CORE ENGINES -->
+  <text x="30" y="280" fill="#94a3b8" font-size="12" font-weight="bold" letter-spacing="1">2. CORE APPLICATION ENGINES &amp; WORKFLOW</text>
+
+  <!-- Smart Checkout & Vehicle Auto-Matcher -->
+  <rect x="20" y="300" width="470" height="230" rx="10" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <text x="40" y="330" fill="#38bdf8" font-size="15" font-weight="bold">⚡ Smart Cart &amp; Vehicle Auto-Matching Engine</text>
+
+  <!-- Vehicle Rule Boxes -->
+  <rect x="40" y="350" width="200" height="40" rx="5" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+  <text x="50" y="374" fill="#f8fafc" font-size="11">🏍️ Bike: Light Items (0-15 kg)</text>
+
+  <rect x="260" y="350" width="210" height="40" rx="5" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+  <text x="270" y="374" fill="#f8fafc" font-size="11">🛺 TukTuk: Tools/Paints (100 kg)</text>
+
+  <rect x="40" y="405" width="200" height="40" rx="5" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+  <text x="50" y="429" fill="#f8fafc" font-size="11">🚚 Dimo Batta: Heavy (1000 kg)</text>
+
+  <rect x="260" y="405" width="210" height="40" rx="5" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="270" y="429" fill="#fbbf24" font-size="11" font-weight="bold">🚛 Tipper Truck: Kubs (Sand/Gravel)</text>
+
+  <!-- Distance Formula Banner -->
+  <rect x="40" y="460" width="430" height="50" rx="6" fill="#0284c7"/>
+  <text x="255" y="482" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">
+    Delivery Charge = Base Fee + (Distance in KM × Rate per KM)
+  </text>
+  <text x="255" y="498" fill="#e0f2fe" font-size="10" text-anchor="middle">
+    Auto-Upgrades to Largest Required Vehicle &amp; Filters Out "ON_DELIVERY" Status
+  </text>
+
+  <!-- Dispatch & Automated Return Loop -->
+  <rect x="510" y="300" width="470" height="230" rx="10" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <text x="530" y="330" fill="#4ade80" font-size="15" font-weight="bold">🔄 Dispatch Operations &amp; Automated Return Loop</text>
+
+  <rect x="530" y="355" width="120" height="50" rx="6" fill="#334155"/>
+  <text x="590" y="378" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">Order Placed</text>
+  <text x="590" y="393" fill="#cbd5e1" font-size="10" text-anchor="middle">PENDING</text>
+
+  <line x1="650" y1="380" x2="685" y2="380" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="690" y="355" width="120" height="50" rx="6" fill="#1e1b4b" stroke="#6366f1"/>
+  <text x="750" y="378" fill="#a5b4fc" font-size="11" font-weight="bold" text-anchor="middle">Dispatched</text>
+  <text x="750" y="393" fill="#c7d2fe" font-size="10" text-anchor="middle">Vehicle: ON_DELIVERY</text>
+
+  <line x1="810" y1="380" x2="845" y2="380" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="850" y="355" width="110" height="50" rx="6" fill="#064e3b" stroke="#10b981"/>
+  <text x="905" y="378" fill="#34d399" font-size="11" font-weight="bold" text-anchor="middle">Delivered</text>
+  <text x="905" y="393" fill="#a7f3d0" font-size="10" text-anchor="middle">Order Complete</text>
+
+  <!-- Loop back line -->
+  <path d="M 905 410 L 905 470 L 590 470 L 590 415" fill="none" stroke="#4ade80" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow-green)"/>
+  <rect x="660" y="455" width="180" height="25" rx="4" fill="#0f172a" stroke="#4ade80" stroke-width="1"/>
+  <text x="750" y="472" fill="#4ade80" font-size="10" font-weight="bold" text-anchor="middle">Automated Trigger: Reset Vehicle to AVAILABLE</text>
+
+  <!-- DATABASE LAYER -->
+  <text x="30" y="560" fill="#94a3b8" font-size="12" font-weight="bold" letter-spacing="1">3. PERSISTENT STORAGE LAYER (XAMPP MYSQL: hardware_db)</text>
+  
+  <rect x="20" y="575" width="960" height="110" rx="10" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+  
+  <!-- DB Tables -->
+  <rect x="40" y="595" width="200" height="70" rx="6" fill="#1e293b" stroke="#475569"/>
+  <text x="140" y="620" fill="#38bdf8" font-size="13" font-weight="bold" text-anchor="middle">🗄️ users</text>
+  <text x="140" y="642" fill="#94a3b8" font-size="10" text-anchor="middle">Roles: CUSTOMER, INV_MGR,</text>
+  <text x="140" y="655" fill="#94a3b8" font-size="10" text-anchor="middle">FLEET_MGR, SUPER_ADMIN</text>
+
+  <rect x="270" y="595" width="210" height="70" rx="6" fill="#1e293b" stroke="#475569"/>
+  <text x="375" y="620" fill="#38bdf8" font-size="13" font-weight="bold" text-anchor="middle">🗄️ products</text>
+  <text x="375" y="642" fill="#94a3b8" font-size="10" text-anchor="middle">Name, Price, Stock, Category,</text>
+  <text x="375" y="655" fill="#94a3b8" font-size="10" text-anchor="middle">unit_type (kubs/kg/pcs), vehicle_tier</text>
+
+  <rect x="510" y="595" width="210" height="70" rx="6" fill="#1e293b" stroke="#475569"/>
+  <text x="615" y="620" fill="#38bdf8" font-size="13" font-weight="bold" text-anchor="middle">🗄️ vehicles</text>
+  <text x="615" y="642" fill="#94a3b8" font-size="10" text-anchor="middle">Plate No, Type, Base Fee,</text>
+  <text x="615" y="655" fill="#94a3b8" font-size="10" text-anchor="middle">Rate/KM, Status (AVAILABLE/ON_DELIVERY)</text>
+
+  <rect x="750" y="595" width="210" height="70" rx="6" fill="#1e293b" stroke="#475569"/>
+  <text x="855" y="620" fill="#38bdf8" font-size="13" font-weight="bold" text-anchor="middle">🗄️ orders &amp; order_items</text>
+  <text x="855" y="642" fill="#94a3b8" font-size="10" text-anchor="middle">Item Subtotal, Delivery Fee,</text>
+  <text x="855" y="655" fill="#94a3b8" font-size="10" text-anchor="middle">Assigned Vehicle, Order Status</text>
+
+</svg>
